@@ -1,24 +1,26 @@
-const express = require('express');
-const socket = require('socket.io');
+const app = require('express')();
+const server = require('http').createServer(app);
+const io = require('socket.io')(server);
 
-// App setup
-const app = express();
-
-const server = app.listen(3000, () => {
-  console.log("Listening on port 3000...");
-});
-
-// Static files
-app.use(express.static('public'));
-
-// Socket setup
-const io = socket(server);
+var state = {
+  conneciton: null
+}
 
 io.on('connection', (socket) => {
-  console.log(`Made socket connection (${socket.id})`);
+  if (null == state.conneciton) {
+    state.socket = socket;
+    console.log(`Made socket connection (${socket.id})`);
+  }
+  else {
+    socket.disconnect();
+    console.log(`Refused socket connection`);
+  }
 
-  socket.on('chat', (data) => {
+  socket.on('click', (data) => {
     console.log(data);
-    io.sockets.emit('chat', data);
+    io.sockets.emit('data', data);
   });
 });
+
+server.listen(3000);
+console.log("Listening on port 3000...");
