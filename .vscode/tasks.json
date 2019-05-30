@@ -1,0 +1,23 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Sync code to Pi",
+            "type": "shell",
+            "command": "rsync -axv -e \"ssh -i ~/.ssh/id_rsa_pi\" --max-size=5MB \"${workspaceFolder}/server/\" pi@192.168.86.98:Projects/gpio2019/server/",
+            "problemMatcher": [],
+            "isBackground": true,
+            "presentation": {
+                "echo": false,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "clear": false
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ]
+}
