@@ -15,7 +15,7 @@ class App extends Component {
         this.state = {
             socket: null,
             response: false,
-            endpoint: "http://localhost:3000",
+            endpoint: "http://pi:3000",
             clickedButton: "Click a button"
         }
 

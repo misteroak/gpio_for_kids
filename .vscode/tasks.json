@@ -4,7 +4,7 @@
         {
             "label": "Sync code to Pi",
             "type": "shell",
-            "command": "rsync -axv -e \"ssh -i ~/.ssh/id_rsa_pi\" --max-size=5MB \"${workspaceFolder}/server/\" pi@192.168.86.98:Projects/gpio2019/server/",
+            "command": "rsync -axv -e \"ssh\" --max-size=5MB \"${workspaceFolder}/server/\" pi@pi:Projects/gpio/synced-server/",
             "problemMatcher": [],
             "isBackground": true,
             "presentation": {
@@ -18,6 +18,15 @@
                 "kind": "build",
                 "isDefault": true
             }
+        },
+        {
+            "label": "Remote Execute",
+            "type": "shell",
+            "command": "ssh -n pi \"killall node; node ~/Projects/gpio/synced-server/index.js\"",
+            "dependsOn": [
+                "Sync code to Pi"
+            ],
+            "problemMatcher": []
         }
     ]
 }
