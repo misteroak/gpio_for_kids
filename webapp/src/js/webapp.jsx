@@ -1,18 +1,21 @@
-import React, { Component} from "react";
+import React, { Component } from "react";
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCheckCircle, faTimesCircle, faLightbulb } from '@fortawesome/free-solid-svg-icons'
 
 import Container from 'react-bootstrap/Container'
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import CardDeck from 'react-bootstrap/CardDeck';
 import Row from 'react-bootstrap/Row';
-
-// import SVGServerConnectionOff from '../img/connection-off.svg';
-import SVGConnectionOff from '-!svg-react-loader!../img/connection-off.svg';
-import SVGConnectionOn from '-!svg-react-loader!../img/connection-on.svg';
+import Col from 'react-bootstrap/Col';
 
 import socketIOClient from 'socket.io-client';
 
 import Bootstrap from 'bootstrap/dist/css/bootstrap.css';
+
+import OptionSelector from './option-selector.jsx';
+import StepCard from './step-card.jsx';
 
 class App extends Component {
 
@@ -22,38 +25,48 @@ class App extends Component {
         this.state = {
             socket: null,
             endpoint: "http://pi:3000",
-            clickedButton: "Click a button"
+            steps: [
+                {"id" : 0, "step": 1},
+                {"id" : 1, "step": 1},
+                {"id" : 2, "step": 1},
+                {"id" : 3, "step": 1},
+                {"id" : 4, "step": 1},
+                {"id" : 5, "step": 1},
+            ],
+            selectedStep: -1,
         }
 
         this.onButtonClick = this.onButtonClick.bind(this);
+        this.onSelectorButtonClick = this.onSelectorButtonClick.bind(this);
+        this.onStepClick = this.onStepClick.bind(this);
     }
 
     componentWillMount() {
-        console.log("Going to connect...");
-        const { endpoint } = this.state;
-        const socket = socketIOClient(endpoint);        
-        
-        socket.on('connect', () => {
-            console.log("Connected: " + socket.id);
-            this.setState({
-                socket: socket,
-            });
-        });
+        // console.log("Going to connect...");
+        // const { endpoint } = this.state;
+        // const socket = socketIOClient(endpoint);
 
-        socket.on('data', (data) => {
+        // socket.on('connect', () => {
+        //     console.log("Connected: " + socket.id);
+        //     this.setState({
+        //         socket: socket,
+        //     });
+        // });
 
-            this.setState({
-                clickedButton: data
-            })
-        });
+        // socket.on('data', (data) => {
 
-        socket.on('disconnect', (data) => {
+        //     this.setState({
+        //         clickedButton: data
+        //     })
+        // });
 
-            console.log("Socket disconnected");
-            this.setState({
-                socket: null
-            })
-        });
+        // socket.on('disconnect', (data) => {
+
+        //     console.log("Socket disconnected");
+        //     this.setState({
+        //         socket: null
+        //     })
+        // });
 
     }
 
@@ -61,50 +74,63 @@ class App extends Component {
         this.state.socket.emit('click', buttonId);
     }
 
+    onSelectorButtonClick(e, buttonId) {
+        var new_steps = this.state.steps;
+        new_steps[this.state.selectedStep]["step"]=buttonId;
+        
+        this.setState({
+            steps: new_steps,
+        });
+    }
+
+    onStepClick(e, id) {
+        
+        this.setState({
+           selectedStep: id, 
+        })
+    }
+
     render() {
         return (
             <React.Fragment>
                 <Container>
-                    <Row>
-                        <CardDeck>
-                            <Card>
-                                <Card.Header>Red LED</Card.Header>
-                                <Card.Body>
-                                    <Button className="m-3"
-                                        variant="primary"
-                                        onClick={(e) => this.onButtonClick(e, 1)}
-                                    >
-                                        LED ON
-                                </Button>
-                                    <Button className="m-3"
-                                        variant="primary"
-                                        onClick={(e) => this.onButtonClick(e, 2)}
-                                    >
-                                        LED OFF
-                                </Button>
+                    <Row className="justify-content-center">
+                        <Col>
+                            <OptionSelector onOptionClick={this.onSelectorButtonClick}/>
+                        </Col>
 
-                                    <div className="text-center">
-                                        {this.state.clickedButton}
-                                    </div>
-                                </Card.Body>
-                            </Card>
-                        </CardDeck>
+                    </Row>
+                    <Row>
+                        <Col className="d-flex flex-wrap">
+                            {
+                            [0,1,2,3,4,5].map((id) => 
+                                <StepCard 
+                                    key={id} 
+                                    id={id} 
+                                    onStepClick={this.onStepClick} 
+                                    selected={this.state.selectedStep == id}
+                                    selection = {this.state.steps[id]["step"]}
+                                    image = "11-ariel"
+                                    />
+                            )
+                            }
+                        </Col>
                     </Row>
 
                 </Container>
                 <footer className="footer mt-auto py-1 px-4 border-top bg-light text-right" >
                     {this.state.socket == null ? (
                         <div>
-                            <SVGConnectionOff height="2vh" className="px-2"/>
-                            <span>Disconnected</span>
+                            <FontAwesomeIcon icon={faTimesCircle} color="LightCoral" />
+                            <span> Disconnected</span>
                         </div>
-                        
+
                     ) : (
-                        <div>
-                            <SVGConnectionOn height="2vh" className="px-2"/>
-                            <span>Connected</span>
-                        </div>
-                    )}
+                            <div>
+                                <FontAwesomeIcon icon={faCheckCircle} color="SeaGreen" />
+                                <span> Connected</span>
+                            </div>
+                        )}
                 </footer>
             </React.Fragment>
         );
