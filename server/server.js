@@ -2,8 +2,8 @@ const app = require('express')();
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 
-var Gpio = require('onoff').Gpio; //include onoff to interact with the GPIO
-var LED = new Gpio(26, 'out'); //use GPIO pin 4, and specify that it is output
+// var Gpio = require('onoff').Gpio; //include onoff to interact with the GPIO
+// var LED = new Gpio(26, 'out'); //use GPIO pin 4, and specify that it is output
 //var blinkInterval = setInterval(blinkLED, 250); //run the blinkLED function every 250ms
 
 // function blinkLED() { //function to start blinking
@@ -26,17 +26,8 @@ io.on('connection', (socket) => {
 
   console.log(`Made socket connection (${socket.id})`);
 
-  socket.on('click', (data) => {
-    console.log(data);
-    if (1 == data) {
-      console.log("Turning LED on");
-      LED.writeSync(1); //set pin state to 1 (turn LED on)
-    } else {
-      console.log("Turning LED off");
-      LED.writeSync(0); //set pin state to 1 (turn LED on)
-    }
-
-    io.sockets.emit('data', data);
+  socket.on('play', (state) => {
+    console.log(state);
   });
 });
 

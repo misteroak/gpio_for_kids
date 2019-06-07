@@ -13,7 +13,7 @@ class StepCard extends Component {
 
         var selectionIcon = null;
 
-        switch (this.props.selection) {
+        switch (this.props.action) {
             case 1:
                 selectionIcon = <Button className="mx-3 px-3" size="lg" variant="danger"> <FontAwesomeIcon icon={faLightbulb} /> <span>Red</span></Button>
                 break;
@@ -34,15 +34,12 @@ class StepCard extends Component {
                 break;
         }
 
-        var imageTop = null;
-        var header = null;
+        var header = <h1 className="card-header">{this.props.id + 1}</h1>;
         
+        var imageTop = null;
         if (this.props.image) {
             imageTop = <Card.Img variant="top" src={`src/img/${this.props.image}.png`} />
-        } else {
-            
         }
-        header = <h1 className="card-header">{this.props.id + 1}</h1>;
 
 
         return (
@@ -68,6 +65,7 @@ class StepCard extends Component {
 
 StepCard.propTypes = {
     id: PropTypes.number.isRequired,
+    action: PropTypes.number.isRequired
 }
 
 export default StepCard;
