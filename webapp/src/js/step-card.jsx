@@ -14,22 +14,22 @@ class StepCard extends Component {
         var selectionIcon = null;
 
         switch (this.props.action) {
-            case 1:
+            case "R":
                 selectionIcon = <Button className="mx-3 px-3" size="lg" variant="danger"> <FontAwesomeIcon icon={faLightbulb} /> <span>Red</span></Button>
                 break;
-            case 2:
+            case "G":
                 selectionIcon = <Button className="mx-3 px-3" size="lg" variant="primary"> <FontAwesomeIcon icon={faLightbulb} /> <span>Blue</span></Button>
                 break;
-            case 3:
+            case "B":
                 selectionIcon = <Button className="mx-3 px-3" size="lg" variant="success"> <FontAwesomeIcon icon={faLightbulb} /> <span>Green</span></Button>
                 break;
-            case 4:
+            case "Y":
                 selectionIcon = <Button className="mx-3 px-3" size="lg" variant="warning"> <FontAwesomeIcon icon={faLightbulb} /> <span>Yellow</span></Button>
                 break;
-            case 5:
+            case "W":
                 selectionIcon = <Button className="mx-3 px-3" size="lg" variant="secondary"> <FontAwesomeIcon icon={faLightbulb} /> <span>White</span></Button>
                 break;
-            case 6:
+            case "Z":
                 selectionIcon = <Button className="mx-3 px-3" size="lg" variant="dark"> <FontAwesomeIcon icon={faMusic} /> <span>Beep</span></Button>
                 break;
         }
@@ -65,7 +65,7 @@ class StepCard extends Component {
 
 StepCard.propTypes = {
     id: PropTypes.number.isRequired,
-    action: PropTypes.number.isRequired
+    action: PropTypes.string.isRequired
 }
 
 export default StepCard;

@@ -40,12 +40,15 @@ class App extends Component {
         });
 
         socket.on('disconnect', (data) => {
-
             console.log("Socket disconnected");
             this.setState({
                 socket: null
             })
         });
+
+        socket.on('error', (error) => {
+            console.error(error);
+        })
 
     }
 
@@ -76,11 +79,11 @@ class App extends Component {
         // ];
 
         const initialSteps = [
-            { "action": 1},
-            { "action": 1},
-            { "action": 1},
-            { "action": 1},
-            { "action": 1},
+            { "action": "R"},
+            { "action": "G"},
+            { "action": "B"},
+            { "action": "Y"},
+            { "action": "W"},
         ];
 
 
@@ -100,7 +103,7 @@ class App extends Component {
                     ) : (
                             <div>
                                 <FontAwesomeIcon icon={faCheckCircle} color="SeaGreen" />
-                                <span> Connected</span>
+                                <span> Connected to {this.state.socket.id}</span>
                             </div>
                         )}
                 </footer>
