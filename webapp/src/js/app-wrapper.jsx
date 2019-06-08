@@ -23,8 +23,9 @@ class AppWrapper extends Component {
         this.onStepClick = this.onStepClick.bind(this);
         this.onActionButtonClick = this.onActionButtonClick.bind(this);
         this.onPlayButtonClick = this.onPlayButtonClick.bind(this);
+        this.onAddButtonClick = this.onAddButtonClick.bind(this);
     }
-    
+
     onActionButtonClick(e, buttonId) {
         var new_steps = this.state.steps;
         new_steps[this.state.selectedStep]["action"] = buttonId;
@@ -36,6 +37,27 @@ class AppWrapper extends Component {
 
     onPlayButtonClick() {
         this.props.handlePlayClicked(this.state.steps);
+        var that = this;
+        
+        var i = 0;
+        (function f() {
+            console.log("Selecting card ", i);
+            
+            that.setState({
+                selectedStep: i
+            });
+
+            i++;
+            if (i < that.state.steps.length) {
+                setTimeout(f, 500);
+            } else {
+                setTimeout(() => {
+                    that.setState({
+                        selectedStep: -1
+                    });
+                }, 500);
+            }
+        })();
     }
 
     onStepClick(e, id) {
@@ -45,13 +67,22 @@ class AppWrapper extends Component {
         })
     }
 
+    onAddButtonClick() {
+        var new_steps = this.state.steps;
+        new_steps.push({ "action": "R" })
+
+        this.setState({
+            steps: new_steps,
+        });
+    }
+
     render() {
 
         return (
             <React.Fragment>
                 <Container>
                     <Navbar bg="light" expand="lg" fixed="top" className="justify-content-center">
-                        <ActionSelector 
+                        <ActionSelector
                             onAcitonClick={this.onActionButtonClick}
                             onPlayClick={this.onPlayButtonClick} />
                     </Navbar>
@@ -60,10 +91,12 @@ class AppWrapper extends Component {
                 <Container id="main">
                     <Row>
                         <Col className="d-flex flex-wrap">
-                            <StepsCintainer 
+                            <StepsCintainer
                                 steps={this.state.steps}
-                                selectedStep = {this.state.selectedStep}
-                                onStepClick = {this.onStepClick}/>
+                                selectedStep={this.state.selectedStep}
+                                onStepClick={this.onStepClick}
+                                onAddClick={this.onAddButtonClick}
+                            />
                         </Col>
                     </Row>
 

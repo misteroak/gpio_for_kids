@@ -1,35 +1,106 @@
 const app = require('express')();
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
+const process = require('process');
+// const Gpio = require('pigpio').Gpio;
 
-// var Gpio = require('onoff').Gpio; //include onoff to interact with the GPIO
-// var LED = new Gpio(26, 'out'); //use GPIO pin 4, and specify that it is output
-//var blinkInterval = setInterval(blinkLED, 250); //run the blinkLED function every 250ms
+// const R = new Gpio(25, {mode:Gpio.OUTPUT});
+// const G = new Gpio(12, {mode:Gpio.OUTPUT});
+// const B = new Gpio(16, {mode:Gpio.OUTPUT});
+// const Y = new Gpio(20, {mode:Gpio.OUTPUT});
+// const W = new Gpio(21, {mode:Gpio.OUTPUT});
+// const BUZZER = new Gpio(18, {mode:Gpio.OUTPUT});
 
-// function blinkLED() { //function to start blinking
-//   if (LED.readSync() === 0) { //check the pin state, if the state is 0 (or off)
-//     LED.writeSync(1); //set pin state to 1 (turn LED on)
-//   } else {
-//     LED.writeSync(0); //set pin state to 0 (turn LED off)
-//   }
-// }
-
-// function endBlink() { //function to stop blinking
-//   clearInterval(blinkInterval); // Stop blink intervals
-//   LED.writeSync(0); // Turn LED off
-//   LED.unexport(); // Unexport GPIO to free resources
-// }
-
-// setTimeout(endBlink, 5000); //stop blinking after 5 seconds
+const playbackSpeed = 500;
 
 io.on('connection', (socket) => {
 
   console.log(`Made socket connection (${socket.id})`);
-
-  socket.on('play', (state) => {
-    console.log(state);
+  
+  socket.on('play', (steps) => {
+      play(steps);
   });
 });
 
 server.listen(3000);
 console.log("Listening on port 3000...");
+
+const state = {
+  "R": 0,
+  "G": 0,
+  "B": 0,
+  "Y": 0,
+  "W": 0,
+  "BUZZER": 0
+}
+
+function applyState() {
+
+  console.log("Applying:", state);
+
+  // R.digitalWrite(state["R"]);
+  // G.digitalWrite(state["G"]);
+  // B.digitalWrite(state["B"]);
+  // Y.digitalWrite(state["Y"]);
+  // W.digitalWrite(state["W"]);
+  // BUZZER.hardwarePwmWrite(state["BUZZER"], 500000);
+}
+
+function offAllLeds() {
+  console.log("Truning off all leds");
+  state["R"] = 0;
+  state["G"] = 0;
+  state["B"] = 0;
+  state["Y"] = 0;
+  state["W"] = 0;
+  applyState();
+}
+
+function toggleLed(led) {
+  console.log("Toggling LED: ", led);
+  state[led] = 1 - state[led];
+  applyState();
+}
+
+function singleLed(led) {
+  offAllLeds();
+  console.log("Turning on single LED: ", led);
+  state[led] = 1;
+  applyState();
+}
+
+function play(steps) {
+
+  var i = 0;
+  console.log("Playing:", steps);
+  console.log("");
+
+  (function f() {
+    console.log("Performing step ",i,": ",steps[i]);
+    offAllLeds();
+    singleLed(steps[i]["action"]);
+    i++;
+    if (i < steps.length) {
+      setTimeout(f, playbackSpeed);
+    } else {
+      setTimeout(offAllLeds, playbackSpeed);
+    }
+  })();
+
+  // const callbacks = [
+  //   { "func": offAllLeds, "params": null },
+  //   { "func": singleLed, "params": "R" },
+  //   { "func": singleLed, "params": "G" },
+  //   { "func": singleLed, "params": "B" },
+  //   { "func": singleLed, "params": "W" },
+  //   { "func": singleLed, "params": "Y" },
+  //   { "func": singleLed, "params": "W" },
+  //   { "func": singleLed, "params": "B" },
+  //   { "func": singleLed, "params": "G" },
+  //   { "func": singleLed, "params": "R" },
+  //   { "func": offAllLeds, "params": null }
+  //      console.log(callbacks);
+
+  // var i = 0;
+
+}

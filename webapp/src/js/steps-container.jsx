@@ -15,18 +15,24 @@ class StepsContainer extends Component {
 
         return (
             <React.Fragment>
-            {this.props.steps.map((step, index) => (
+                {this.props.steps.map((step, index) => (
 
+                    <StepCard
+                        key={index}
+                        id={index}
+                        onStepClick={(e, id) => this.props.onStepClick(e, index)}
+                        selected={this.props.selectedStep == index}
+                        action={step["action"]}
+                        image={step["image"]}
+                    />
+                ))}
                 <StepCard
-                    key = { index }
-                    id = { index }
-                    onStepClick = { (e, id) => this.props.onStepClick(e, index) }
-                    selected = { this.props.selectedStep == index }
-                    action = {step["action"] }
-                    image = {step["image"]}
+                    key={this.props.steps.length + 1}
+                    selected={false}
+                    action = "+"
+                    onButtonClick = {this.props.onAddClick}
+                    onStepClick={(e, id) => this.props.onStepClick(e, this.props.steps.length + 1)}
                 />
-    
-            ))}
 
             </React.Fragment>
         );
@@ -37,7 +43,8 @@ class StepsContainer extends Component {
 StepsContainer.propTypes = {
     steps: PropTypes.array.isRequired,
     selectedStep: PropTypes.number.isRequired,
-    onStepClick: PropTypes.func.isRequired
+    onStepClick: PropTypes.func.isRequired,
+    onAddClick: PropTypes.func.isRequired
 }
 
 export default StepsContainer;

@@ -22,7 +22,7 @@
         {
             "label": "Remote Execute",
             "type": "shell",
-            "command": "ssh -n pi \"killall node; node ~/Projects/gpio/synced-server/server.js\"",
+            "command": "ssh -n pi \"sudo killall node; sudo node ~/Projects/gpio/synced-server/server.js\"",
             "dependsOn": [
                 "Sync code to Pi"
             ],

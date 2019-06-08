@@ -18,10 +18,10 @@ class StepCard extends Component {
                 selectionIcon = <Button className="mx-3 px-3" size="lg" variant="danger"> <FontAwesomeIcon icon={faLightbulb} /> <span>Red</span></Button>
                 break;
             case "G":
-                selectionIcon = <Button className="mx-3 px-3" size="lg" variant="primary"> <FontAwesomeIcon icon={faLightbulb} /> <span>Blue</span></Button>
+                selectionIcon = <Button className="mx-3 px-3" size="lg" variant="success"> <FontAwesomeIcon icon={faLightbulb} /> <span>Green</span></Button>
                 break;
             case "B":
-                selectionIcon = <Button className="mx-3 px-3" size="lg" variant="success"> <FontAwesomeIcon icon={faLightbulb} /> <span>Green</span></Button>
+                selectionIcon = <Button className="mx-3 px-3" size="lg" variant="primary"> <FontAwesomeIcon icon={faLightbulb} /> <span>Blue</span></Button>
                 break;
             case "Y":
                 selectionIcon = <Button className="mx-3 px-3" size="lg" variant="warning"> <FontAwesomeIcon icon={faLightbulb} /> <span>Yellow</span></Button>
@@ -32,9 +32,15 @@ class StepCard extends Component {
             case "Z":
                 selectionIcon = <Button className="mx-3 px-3" size="lg" variant="dark"> <FontAwesomeIcon icon={faMusic} /> <span>Beep</span></Button>
                 break;
+            case "+":
+                selectionIcon = <Button className="mx-3 px-3" size="lg" variant="primary" onClick={this.props.onButtonClick}>+<span> Add</span></Button>
+                break;
         }
 
-        var header = <h1 className="card-header">{this.props.id + 1}</h1>;
+        var header = null;
+        if ('id' in this.props) {
+            header = <h1 className="card-header">{this.props.id + 1}</h1>;
+        }
         
         var imageTop = null;
         if (this.props.image) {
@@ -64,8 +70,9 @@ class StepCard extends Component {
 }
 
 StepCard.propTypes = {
-    id: PropTypes.number.isRequired,
-    action: PropTypes.string.isRequired
+    id: PropTypes.number,
+    action: PropTypes.string,
+    onButtonClick: PropTypes.func,
 }
 
 export default StepCard;

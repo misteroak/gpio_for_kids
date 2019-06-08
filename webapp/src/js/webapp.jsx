@@ -59,24 +59,24 @@ class App extends Component {
 
     render() {
 
-        // const initialSteps = [
-        //     { "action": 1, "image": "1-alma" },
-        //     { "action": 1, "image": "10-elle" },
-        //     { "action": 1, "image": "11-ariel" },
-        //     { "action": 1, "image": "12-gabriella" },
-        //     { "action": 1, "image": "13-sammi" },
-        //     { "action": 1, "image": "14-clarity" },
-        //     { "action": 1, "image": "15-anna" },
-        //     { "action": 1, "image": "16-esta" },
-        //     { "action": 1, "image": "2-ava" },
-        //     { "action": 1, "image": "3-naomi" },
-        //     { "action": 1, "image": "4-mia" },
-        //     { "action": 1, "image": "5-raz" },
-        //     { "action": 1, "image": "6-maya" },
-        //     { "action": 1, "image": "7-bassi" },
-        //     { "action": 1, "image": "8-eliana" },
-        //     { "action": 1, "image": "9-kiran" }
-        // ];
+        const iinitialSteps = [
+            { "action": "R", "image": "1-alma" },
+            { "action": "R", "image": "10-elle" },
+            { "action": "R", "image": "11-ariel" },
+            { "action": "R", "image": "12-gabriella" },
+            { "action": "R", "image": "13-sammi" },
+            { "action": "R", "image": "14-clarity" },
+            { "action": "R", "image": "15-anna" },
+            { "action": "R", "image": "16-esta" },
+            { "action": "R", "image": "2-ava" },
+            { "action": "R", "image": "3-naomi" },
+            { "action": "R", "image": "4-mia" },
+            { "action": "R", "image": "5-raz" },
+            { "action": "R", "image": "6-maya" },
+            { "action": "R", "image": "7-bassi" },
+            { "action": "R", "image": "8-eliana" },
+            { "action": "R", "image": "9-kiran" }
+        ];
 
         const initialSteps = [
             { "action": "R"},
