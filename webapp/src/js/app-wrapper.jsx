@@ -18,6 +18,7 @@ class AppWrapper extends Component {
         this.state = {
             selectedStep: -1,
             steps: props.initialSteps,
+            playbackSpeed: 750,
         }
 
         this.onStepClick = this.onStepClick.bind(this);
@@ -36,7 +37,7 @@ class AppWrapper extends Component {
     }
 
     onPlayButtonClick() {
-        this.props.handlePlayClicked(this.state.steps);
+        this.props.handlePlayClicked(this.state);
         var that = this;
         
         var i = 0;
@@ -49,13 +50,13 @@ class AppWrapper extends Component {
 
             i++;
             if (i < that.state.steps.length) {
-                setTimeout(f, 500);
+                setTimeout(f, that.state.playbackSpeed + 50);
             } else {
                 setTimeout(() => {
                     that.setState({
                         selectedStep: -1
                     });
-                }, 500);
+                }, that.state.playbackSpeed + 50);
             }
         })();
     }

@@ -9,12 +9,12 @@ import AppWrapper from "./app-wrapper.jsx";
 class App extends Component {
 
     constructor() {
-        super();
+        super(); 
 
         this.state = {
             socket: null,
-            // endpoint: "http://pi:3000",
-            endpoint: "http://localhost:3000",
+            endpoint: "http://pi_eth:3000",
+            //endpoint: "http://localhost:3000",
         }
 
         this.handlePlayClicked = this.handlePlayClicked.bind(this);
@@ -32,13 +32,6 @@ class App extends Component {
             });
         });
 
-        socket.on('data', (data) => {
-
-            this.setState({
-                clickedButton: data
-            })
-        });
-
         socket.on('disconnect', (data) => {
             console.log("Socket disconnected");
             this.setState({
@@ -52,9 +45,9 @@ class App extends Component {
 
     }
 
-    handlePlayClicked(steps) {
-        console.log("Sending to server:",steps);
-        this.state.socket.emit("play", steps);
+    handlePlayClicked(script) {
+        console.log("Sending to server:",script);
+        this.state.socket.emit("play", script);
     };
 
     render() {
