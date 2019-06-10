@@ -27,22 +27,45 @@ I also wanted to solve is setting up a remote development environment for Raspbe
 
 I'm not getting into the details of how to connect your breadboard to the PI's GPIO and how to setup the organ itself. Please follow the image above.
 
-### Setup
-1. Clone this git reposotry
-1. You will see three top-level directories:
+### On your Raspberry Pi
+1. Set up your Raspberry Pi, SSH and node.js. Following [this guide](https://www.w3schools.com/nodejs/nodejs_raspberrypi.asp) if you're not sure how. 
+
+### On your dev laptop
+1. Clone this git repository. You will see the following top-level directories:
     
     __.vscode__: The important file here is *tasks.json*, which I used for setting up the remote development environment. See more below !!! ADD LINK !!!
     
-    __server__: This is the code for the server. 
+    __server__: This is the code for the server.
     
     __webapp__: This is the code for the client.
     
-    
-* *webapp* folder contains the front end. Need to run locally using 'npm start'. Before that, need to 
+1. Install packages for the client:
+
+    ```
+    cd webapp 
+    npm i
+    ```
+
+1. Assuming you are developing on a laptop (i.e., not directly on a Raspberry Pi), you don't really need to install the packages for the server. However, uou do need to get the server code on the pi. I recommend doing that as part of the remote dev environment I cover below [ADD LINK]. But you can also copy the code there manually using SSH.
+
+    In any event, the first time you get the server code on the PI, you'll need to install the pacakges:
+
+
+    ```
+    cd server-synced
+    npm i
+    ```
+
+    Notice that I was using "server-synced" as the folder for the code synced from my dev laptop. Again, see more under "setting up a remote dev environment" [XXX link]
+
 
 
 # Remote Development Environment
-- tasks.json
-- note: running "npm i <package>" locally, then syncing, then running again manually on server
-- SSH - config
+To get my remote development environment I mostly followed this [post](https://stackoverflow.com/questions/53320958/vscode-python-remote-interpreter/54789809#54789809) on Stack Exchange.
+
+See my version under */.vscode/tasks.json*.
+
+Note that I was using SSH using public key authenticate. Follow [this guide](https://www.raspberrypi.org/documentation/remote-access/ssh/passwordless.md) on how to setup.
+
+My PI's hostname was "pi_eth".
 
